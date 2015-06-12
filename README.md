@@ -1,4 +1,4 @@
-# Conditionals & Loops
+# Conditionals
 
 ## Objectives
 
@@ -143,10 +143,10 @@ Just as in checking whether an object exists, we can check if an object *doesn't
 
 ```objc
 if (!username) {
-   [loginScreen requestUsername];
+   NSLog(@"Please log in.");
 }
 ```
-This will check if our user has logged in before, and if not, then it tells the `loginScreen` object to run the `requestUsername` method, which presumably prompts the user to login.
+This will check if our user has logged in before, and if not, it will print `Please log in.`.
 
 ## Advanced
 
