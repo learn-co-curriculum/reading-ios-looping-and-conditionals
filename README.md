@@ -1,114 +1,237 @@
-# Looping and Conditionals
+# Conditionals
+
+## Objectives
+
+1. Learn how `BOOL`s are used in `if()` statements.
+2. See how a switch block is built with `if()`, `else if()`, and `else` statements.
+3. Learn about using `!` ("the negation operator").
+
+#### Advanced
+
+4. Learn the use of the logical operators `&&` ("AND") and `||` ("OR").
 
 ## Conditionals
 
-Everything you have learned until now can *say* different things. For example with variables we can have the code:
+Computers, at their heart, are logic machines. Binary arithmetic is accomplished using various arrangements of logic gates to perform calculations. 
+
+**Shameless plug:** *Read [Mark's blog post](https://medium.com/@MarkEdwardMurray/binary-operations-and-xor-you-9417a5dc275d) for an introduction to how logic gates are employed in computer operations.* 
+
+In programming Objective-C, the primary way that customized logic gates are utilized is through the use of `if()`, `else if()`, and `else` statements.
+
+## The `if()`-statement
+
+An `if()` statement is exactly that: a function which runs a designated block of code **only if** a condition (or set of conditions) is met. All `if()`-statements evaluate the contents of their parentheticals ***as a boolean***. As we know from the previous reading, a `BOOL` can be either true or false, represented as `YES` or `NO` in Objective-C.
+
+An `if`-statement is structured like this:
 
 ```objc
-NSString *studentName = @"James";
-NSLog(@"His name is %@",studentName);
-```
-
-and this would print out a different greeting depending on what we put in the `studentName` variable. The problem with this is we can't *do* something different depending on that variable. This code would be a bit weird of the `studentName` was `@"Sally"`. If it's a woman's name then we should log out `@"Her name is Sally"`. Conditionals allow us to *do* something depending on some sort of comparison. So let's take a look at what types of conditions and comparisons we can do in Objective-C
-
-### Comparisons and Conditions
-
-In Objective-C there are two outcomes of type `BOOL` whenever you run a condition: `YES` or `NO`. It can't be both! When we log out these values, they get converted into `NSInteger` objects and will be logged as `1` for `YES` and `0` for `NO`.Let's take a look at a few comparisons, we are using the placeholder `%i` because we are logging the `NSInteger` value.
-
-```objc
-NSLog(@"%i", YES); // Logs 1
-NSLog(@"%i",NO); // Logs 0
-NSLog(@"%i", 5 < 8); // Logs 1
-NSLog(@"%i", 4>=5); // Logs 0
-NSLog(@"%i", 10 == 10) // Logs 1
-```
-
-As you can see, comparing `NSInteger` values is pretty simple. When we are comparing proper Objective-C objects (those with the `*`) we have to use a method though. The `==` sign will only compare if they are the *exact same object*, not just the same content. To compare `NSString` objects we use the `isEqualToString:` method, for other data types you can use the `isEqual` method. Let's take a look at that:
-
-```objc
-NSLog(@"%i", [@"joe" isEqualToString:@"joe"]); // Logs 1
-NSLog(@"%i", [@"james" isEqualToString:@"James"]); //Logs 0
-NSLog(@"%i", [@4 isEqual:@91]); //Logs 0
-```
-
-We can also combine multiple conditions. You combine conditions with either an "and" (`&&`) or and "or" (`||`). You use `&&` of you need both conditions to return `YES`. An `||` is used if you are ok with only one of the conditions returning `YES`. Let's say we wanted to check to see if a number was between 5 and 8. We can do that like this:
-
-```objc
-NSLog(@"%i", num >5 && num <8); // logs 1
-```
-
-But we can also check to see if a number is either less then 5 or greater that 30 like this:
-
-```objc
-NSLog(@"%i",num<5 || num>30); // logs 1
-```
-
-## Doing Something With Conditions
-
-So now we know how to compare values, how do we use these comparisons do actually *do* something? The answer is with an `if` statement! Let's look at this code:
-
-```objc
-if (num < 5)
-{
-  NSLog(@"It's less than five");
+if (someConditionIsTrue) {
+    // then run this code
 }
 ```
 
-You can read this code as "if num is less than 5, then log I's less than five". See how that is sorta english-y? As it is right now, if `num` isn't less than 5 then we just skip over the `NSLog` and move on with the code. What if we want to do something else if the `num` is greater then 5? Well, that sounds like an `else` statement!
+Implementing one can look like:
 
 ```objc
-if (num <5)
-{
-  NSLog(@"It's less than five");
-} else
-{
-  NSLog(@"It's greater then or equal to five");
+if (3 > 2) {
+    NSLog(@"Three is greater than two.");
+}
+```
+They're pretty straightforward.
+
+### The `else`-statement
+
+An `else`-statement may (and may *only*) follow an `if()`-statement and will only run if the `if()`-statement evaluates as false (`NO`). This is a quick way of creating an either-or behavior.
+
+A common-use example of this is in validating a password:
+
+```objc
+NSString *savedPassword   = @"p@ssw0rd";
+NSString *enteredPassword = @"password";
+
+if ([enteredPassword isEqualToString:savedPassword]) {
+    NSLog(@"Welcome! You've got mail!");
+} else {
+    NSLog(@"Incorrect password.");
+}
+```
+This will print: `Incorrect password.`.
+
+The `else`-statement can be considered the "**default**" behavior, since it will run for any case **not** detected by a preceding `if()`- or `else if()`-statement.
+
+### The `else if()`-statement
+
+If you wish to present any additional cases separate from the first case, but not the default case, then the `else if()`-statement can be employed. An `else if()`-statement will only get checked if **all** of the conditionals before it fail, **and** its own conditional statement passes. A series of `else if()`-statements essentially builds a switch case.
+
+```objc
+NSInteger selection = 3;
+
+if (selection == 1) {
+    NSLog(@"You have selected option 1.");
+} else if (selection == 2) {
+    NSLog(@"You have selected option 2.");
+} else if (selection == 3) {
+    NSLog(@"You have selected option 3.");
+} else {
+    NSLog(@"Please select a valid option.");
 }
 ```
 
-An `else` statement must be paired with an `if` statement, but it is the code that is run if the condition returns `NO`. These are a convenient "catch-all", but what if we want a bit more granularity in our statements? What if we want to do different things as a sort of waterfall of decisions. So if a number is less than 5 log "It's less than five", else if it's less than 10 log "It's greater than 5, but less than 10", if none of these are true then print "It's greater than 10". This is what that looks like expressed in code:
+**Note:** *There is a* `switch` *statement, but it doesn't do what you'd think for objects. Avoid it for everything but primitives.*
+
+### Avoid Direct Comparisons to `YES`
+
+You may have wondered, if an `if()`-statement's conditional takes a `BOOL` value, then how are the provided examples able to pass in variables of other types without getting errors? The answer is because `BOOL` evaluates anything that is **not zero or `nil`** to `YES`, and `YES` is equivalent to the integer value `1`. However, a variable which is evaluated as `BOOL` can result to `YES` without actually equalling `YES`. 
 
 ```objc
-if (num < 5)
-{
-  NSLog(@"It's less than five");
-} else if (num < 10)
-{
-  NSLog(@"It's greater than 5, but less than 5");  
-} else 
-{
-  NSLog(@"It's greater than 10");
+// bad example
+
+NSInteger answer = 42;
+
+if (answer == YES) {
+    NSLog(@"The answer to the ultimate question");
+    NSLog(@"of life, the universe, and everything");
+    NSLog(@"is %li.", answer);
+}
+```
+This, counter-intuitively, will not print anything at all. Don't panic! Instead, simply submit the variable itself into the `if()`-statement's conditional:
+
+```objc 
+// good example
+
+NSInteger answer = 42
+
+if (answer) {
+    NSLog(@"The answer to the ultimate question");
+    NSLog(@"of life, the universe, and everything");
+    NSLog(@"is %li.", answer);
+}
+```
+This will print: 
+
+```
+The answer to the ultimate question 
+of life, the universe, and everything 
+is 42.
+```
+Now, if we only knew the question...
+
+### Check For Existence
+
+Similar to the example above, you may see:
+
+```objc
+if (username) {
+    NSLog(@"Welcome, %@. You've got mail!", username);
+}
+```
+This `if()`-statement is set up to only print its customized welcome message if a variable named `username` has been previously created. If `NSString *username = @"Mark";` has been declared and defined already, then this check will print: `Welcome, Mark. You've got mail!`.
+
+Be careful, however! If you've declared the variable in question without defining it, then it will have been automatically defined as `nil`, which means the `if()`-statement's conditional will evaluate `nil` and subsequently fail. Such as:
+
+```objc
+NSString *username;  // defaults to nil
+
+if (username) {
+    NSLog(@"Welcome, %@. You've got mail!", username);
 }
 ```
 
-You can even have as many `else if` statements as you'd like, but you can only have one `else` statement per `if` chain.
+This will print nothing.
 
-## Looping
+### The Negation Operator (`!`)
 
-So now we can choose what we want to do based on some conditions. Now let's choose how many times we want do it. Humans stink at doing the exact same thing over and over, thankfully computers are really incredibly good at it. Loops usually take the form of a what's called a `for` loop. For loops have three different sections. These sections describe how the loop should behave. Let's look at a `for` loop that will print out a line from Edgar Allen's Poem ["Bells"](http://www.poets.org/poetsorg/poem/bells): "From the bells, bells, bells, bells, Bells, bells, bells".
+No, it's not an exclamation point—that's just the name of the typed character. This symbol in our current context is called "the negation operator". It acts to invert a `BOOL`, making a `YES` into a `NO`, or a `NO` into a `YES`.
 
 ```objc
-NSLog(@"From the");
-for (NSInteger i=0;i<7;i++)
-{
-  NSLog(@"bells,");
+BOOL gonnaGiveYouUp = NO;
+
+if (!gonnaGiveYouUp) {
+   NSLog(@"We're no strangers to love.");
+}
+```
+This code snippet just Rick-Rolled you.
+
+Just as in checking whether an object exists, we can check if an object *doesn't* exist:
+
+```objc
+if (!username) {
+   NSLog(@"Please log in.");
+}
+```
+This will check if our user has logged in before, and if not, it will print `Please log in.`.
+
+## Advanced
+
+### Combining Conditionals
+
+When processing logic, there are several ways that multiple conditions can be handled together by using the keywords `AND`, `OR`, and `NOT`. In Objective-C, these logical operators are represented by `&&` ("double-ampersand"), `||` ("double-pipe"), and `!` ("the negation operator") respectively.
+
+**Note:** *On the QWERTY keyboard layout, the* `|` *("pipe") symbol is the* `shift` *case on the backslash* `\` *key.*
+
+| Symbol | Operation | Description |
+|:------:|:---------:|:------------|
+| `&&`   |  AND      | Passes only if **both** conditionals are true. |
+| `||`   |  OR       | Passes if **either** conditional is true. |
+| `!`    |  NOT      | Passes if the **inverse** of the conditional is true (if the conditional is false). |
+
+**Note:** *The single-ampersand* `&` *and single-pipe* `|` *are "bitwise operators" inherited from C. Don't use them—they'll behave in ways you don't expect.*
+
+Any `BOOL` can be defined as the result of evaluating combined conditionals:
+
+| Condition A | Condition B | = | AND Result | OR Result |
+|:-----------:|:-----------:|:-:|:----------:|:---------:|
+| `NO`        | `NO`        | = | `NO`       | `NO`      |
+| `NO`        | `YES`       | = | `NO`       | `YES`     |
+| `YES`       | `NO`        | = | `NO`       | `YES`     |
+| `YES`       | `YES`       | = | `YES`      | `YES`     |
+
+In code, these can look like:
+
+```objc
+BOOL isTrue = YES;
+BOOL isFalse = NO;
+
+if (isFalse && isTrue) {
+    // will not run.
+}
+if (isTrue && isTrue) {
+    // will run.
+}
+
+if (isFalse || isTrue) {
+    // will run.
+}
+if (isFalse || isFalse) {
+    // will not run.
 }
 ```
 
-The three sections in the `for` line explain three different facets of the loop. The first section (`NSInteger i=0`) creates a variable named `i` that starts at 0. This will be our "counter". The second section (`i<7`) is checked before every iteration of the loop, as long as that condition returns `YES`, the loop will begin again. The third section (`i++`) is shorthand for `i=i+1`. This means at the *end* of each loop iteration it increases the `i` variable by one. If we look at the line of text we are trying to write, we want the fifth "bells" to be capitalized. How would we do that in code? We can just look at our counter variable and see which iteration we are on!
+The usage of these logical operators primarily serves to reduce nested conditionals:
 
 ```objc
-NSLog(@"From the");
-for (NSInteger i=0;i<7;i++)
-{
-  if (i==4)
-  {
-    NSLog (@"Bells, ");
-  }else
-  {
-    NSLog(@"bells, ");
-  }
+if (isTrue) {
+    if (isAlsoTrue) {
+        if (mayBeFalse) {
+            // action A
+        } else if (mayAlsoBeFalse) {
+            // action A
+        } else {
+            // action B
+        }
+    }
+}
+```
+Notice that arrowhead shape? It's considered bad practice to nest code any more than three indentations deep. That's because it gets difficult to read. However, we can actually represent this same logical structure in a simpler manner:
+
+```objc
+if (isTrue && isAlsoTrue) {
+    if (mayBeFalse || mayAlsoBeFalse) {
+        // action A
+    } else {
+        // action B
+    }
 }
 ```
 
-Why did I check at 4? Well we started counting at 0 so 0,1,2,3,4. 4 is the fifth time running through this code. There are two other types of loops, [while](http://www.techotopia.com/index.php/Objective-C_Looping_with_do_and_while_Statements#The_Objective-C_while_Loop) and [do-while](http://www.techotopia.com/index.php/Objective-C_Looping_with_do_and_while_Statements#Objective-C_do_..._while_loops) loops but they aren't used very often. That's really all there is to loops!
+For a complete list of all the operators in Objective-C, take a look at [Tutorial Point's](http://www.tutorialspoint.com/objective_c/objective_c_operators.htm) page on Objective-C operators.
