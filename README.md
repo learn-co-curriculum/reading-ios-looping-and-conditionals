@@ -37,13 +37,13 @@ if (3 > 2) {
     NSLog(@"Three is greater than two.");
 }
 ```
-They're pretty straight-forward.
+They're pretty straightforward.
 
 ### The `else`-statement
 
 An `else`-statement may (and may *only*) follow an `if()`-statement and will only run if the `if()`-statement evaluates as false (`NO`). This is a quick way of creating an either-or behavior.
 
-A common use example of this is in validating a password:
+A common-use example of this is in validating a password:
 
 ```objc
 NSString *savedPassword   = @"p@ssw0rd";
@@ -77,7 +77,7 @@ if (selection == 1) {
 }
 ```
 
-**Note:** *There is a* `switch` *case function that Objective-C inherits as a C language function. You should avoid using it within the scope of this course.*
+**Note:** *There is a* `switch` *statement, but it doesn't do what you'd think for objects. Avoid it for everything but primitives.*
 
 ### Avoid Direct Comparisons to `YES`
 
@@ -114,6 +114,7 @@ The answer to the ultimate question
 of life, the universe, and everything 
 is 42.
 ```
+Now, if we only knew the question...
 
 ### Check For Existence
 
@@ -125,6 +126,18 @@ if (username) {
 }
 ```
 This `if()`-statement is set up to only print its customized welcome message if a variable named `username` has been previously created. If `NSString *username = @"Mark";` has been declared and defined already, then this check will print: `Welcome, Mark. You've got mail!`.
+
+Be careful, however! If you've declared the variable in question without defining it, then it will have been automatically defined as `nil`, which means the `if()`-statement's conditional will evaluate `nil` and subsequently fail. Such as:
+
+```objc
+NSString *username;  // defaults to nil
+
+if (username) {
+    NSLog(@"Welcome, %@. You've got mail!", username);
+}
+```
+
+This will print nothing.
 
 ### The Negation Operator (`!`)
 
