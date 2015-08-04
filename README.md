@@ -12,11 +12,20 @@
 
 ## Conditionals
 
-Computers, at their heart, are logic machines. Binary arithmetic is accomplished using various arrangements of logic gates to perform calculations. 
+Computers, at their heart, are logic machines. You've probably heard of the term "algorithm". That word might sound scary but all it really refers to is a set of decisions that are made to accomplish a goal. 
 
-**Shameless plug:** *Read [Mark's blog post](https://medium.com/@MarkEdwardMurray/binary-operations-and-xor-you-9417a5dc275d) for an introduction to how logic gates are employed in computer operations.* 
+![](https://coraifeartaigh.files.wordpress.com/2014/03/einsteinjpgjpg-4a389e85f92a0547.jpg)
+—*Albert Einstein, (looking scared of an algorithm) in Pittsburg, 1934.* (Credit: Pittsburgh Sun-Telegraph/Dwight Vincent and David Topper)
 
-In programming Objective-C, the primary way that customized logic gates are utilized is through the use of `if()`, `else if()`, and `else` statements.
+
+
+Don't look scared, Einstein! Everyday life is full of algorithmic thinking:
+
+* if all of my socks are dirty, then I will run my laundry;
+* if I get hungry, then I will eat something;
+* if the 4 and 5 subway lines are running with delays, then I will take the R train to work.
+
+Just like making decisions in our normal lives, we can program a computer to make decisions based upon current conditions through the use of `if()`, `else if()`, and `else` statements.
 
 ## The `if()`-statement
 
