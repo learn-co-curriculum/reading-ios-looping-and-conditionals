@@ -181,7 +181,7 @@ When processing logic, there are several ways that multiple conditions can be ha
 | Symbol | Operation | Description |
 |:------:|:---------:|:------------|
 | `&&`   |  AND      | Passes only if **both** conditionals are true. |
-| `||`   |  OR       | Passes if **either** conditional is true. |
+| `&#124;&#124;`   |  OR       | Passes if **either** conditional is true. |
 | `!`    |  NOT      | Passes if the **inverse** of the conditional is true (if the conditional is false). |
 
 **Note:** *The single-ampersand* `&` *and single-pipe* `|` *are "bitwise operators" inherited from C. Don't use them—they'll behave in ways you don't expect.*
