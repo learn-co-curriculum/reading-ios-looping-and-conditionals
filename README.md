@@ -244,3 +244,5 @@ if (isTrue && isAlsoTrue) {
 ```
 
 For a complete list of all the operators in Objective-C, take a look at [Tutorial Point's](http://www.tutorialspoint.com/objective_c/objective_c_operators.htm) page on Objective-C operators.
+
+<a href='https://learn.co/lessons/reading-ios-looping-and-conditionals' data-visibility='hidden'>View this lesson on Learn.co</a>
